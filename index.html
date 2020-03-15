@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Clancy Editor</title>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
+
+      body {margin: 0px;}
+      .header {
+        height: 50px;
+        width: 100%;
+        border: gray solid;
+        border-width: 1px 0px 1px 0px;
+      }
+      .header-content {
+        height: 100%;
+        width: calc(100% - 75*2);
+        margin-left: 75px;
+        margin-right: 75px;
+        font-family: 'Roboto', sans-serif;
+      }
+      .header-return {
+        line-height: 50px;
+        cursor: pointer;
+      }
+      .header-return:hover .header-return-label{
+        text-decoration: underline;
+      }
+      .header-return .header-return-label {
+        margin-left: 3px;
+        font-size: 16px;
+        float: left;
+        user-select: none;
+        -webkit-user-select: none; 
+      }
+      .header-return svg {
+        width: 20px;
+        float: left;
+        margin-top: calc((50px / 2) - 13px)
+      }
+
+      
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="header-content">
+        <div class="header-return">
+          <i data-feather="arrow-left"></i>
+          <div class="header-return-label">Back</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
