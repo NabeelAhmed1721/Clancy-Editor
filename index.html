@@ -296,7 +296,13 @@
 
 
       /* Block Operations */
-
+      function updateBlockEvents() {
+        for(let x=0;x<cEditorBlocks.length; x++){
+            cEditorBlocks[x].addEventListener("input", function(){
+            console.log(this.innerHTML)
+            }, false)
+        } 
+      }
 
       function generateBlock(command) {
         cEditorData.push({"type":command})
@@ -305,6 +311,7 @@
         div.setAttribute('class','cEditor-block')
         div.innerHTML = ""
         document.getElementById('blocksContainer').appendChild(div).focus()
+        updateBlockEvents()
       }
 
       var cEditorData = []
