@@ -5,6 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
 
@@ -47,17 +48,17 @@
         color: #434343;
       }
 
-      .editor-wrapper {
+      .cEditor-wrapper {
         width: 100%;
         height: calc(100% - 50px);
       }
-      .editor-container {
+      .cEditor-container {
         width: calc(100% - 250px * 2);
         height: 100%;
         margin: 0 auto;
         position: relative;
       }
-      .editor {
+      .cEditor {
         width: 100%;
         min-height: calc(100% - 75px - 50px);
         position: absolute;
@@ -65,56 +66,109 @@
         border: gray solid;
         border-width: 0px 1px 0px 1px;
       }
-      .editor-content {
+      .cEditor-content {
         width: calc(100% - 75px * 2);
         margin-left: 75px;
         margin-right: 75px;
       }
-      .editor-default {
+      .cEditor-default {
         margin-top: 10px;
         width: 100%;
       }
 
-      .editor-default input {
+      .cEditor-default input {
         border: none;
         width: 100%;
         background-color: transparent;
         outline: none;
       }
-      .editor-default input::placeholder {
+      .cEditor-default input::placeholder {
         transition: 0.2s;
         color: #999999;
       }
-      .editor-default input:focus::placeholder{
+      .cEditor-default input:focus::placeholder{
         opacity: 0;
       }
       
-      .edit-title input {
+      .cEdit-title input {
         /* border: solid #434343;
         border-width: 0px 0px 1px 0px; */
-        font-size: 36px;
+        font-size: 42px;
         font-family: 'Playfair Display', serif;
       }
 
-      .edit-desc input {
-        font-size: 20px;
+      .cEdit-desc input {
+        font-size: 24px;
         font-family: 'Roboto', sans-serif;
       }
 
-      .edit-desc {
+      .cEdit-desc {
         margin: 0;
         margin-bottom: 50px;
       }
 
-      .editor-block {
-        margin-top: 15px;
+      .cEditor-block {
+        font-size: 21px;
+        margin-top: 2em;
         width: 100%;
       }
 
-      .editor-add-container svg {
+      .cEditor-add-container {
+        position: relative;
+      }
+
+      .cEditor-add-container svg {
         color: #434343;
         cursor: pointer;
       }
+
+      .cEditor-add-modal {
+        position: absolute;
+        width: 175px;
+        height: auto;
+        background-color: white;
+        top: 0;
+        left: 0;
+        border: gray solid;
+        border-width: 1px 1px 0px 1px;
+      }
+
+      .cEditor-modal-option {
+        width: 100%;
+        height: 40px;
+        font-family: 'Roboto', sans-serif;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+        margin: 0;
+        border: gray solid;
+        border-width: 0px 0px 1px 0px;
+        transition: 0.1s;
+      }
+
+      .cEditor-modal-option:hover {
+        background-color: lightgrey;
+      }
+
+      .cEditor-modal-option-container {
+        margin-left: 35px;
+        float: left;
+      }
+
+      .cEditor-modal-option-container div {
+        font-size: 16px;
+        color: #5D5D5D;
+        float: left;
+      }
+
+      .cEditor-modal-option svg {
+        color: #5D5D5D;
+        width: 20px;
+        margin-right: 7px;
+        float: left;
+        margin-top: calc((40px / 2) - 13px)
+      }
+      
     </style>
   </head>
   <body>
@@ -126,23 +180,47 @@
         </div>
       </div>
     </div>
-    <div class="editor-wrapper">
-      <div class="editor-container">
-        <div class="editor">
-          <div class="editor-content">
-            <div class="editor-default edit-title">
+    <div class="cEditor-wrapper">
+      <div class="cEditor-container">
+        <div class="cEditor">
+          <div class="cEditor-content">
+            <div class="cEditor-default cEdit-title">
               <input autocorrect="on" type="text" placeholder="Title">
             </div>
-            <div class="editor-default edit-desc">
+            <div class="cEditor-default cEdit-desc">
               <input autocorrect="on" type="text" placeholder="Description">
             </div>
             <div class="block-container">
-              <div class="editor-block editor-add-container"><i data-feather="plus-circle"></i></div>
+            </div>
+            <div class="cEditor-block cEditor-add-container">
+              <i data-feather="plus-circle"></i>
+              <div class="cEditor-add-modal">
+                <div class="cEditor-modal-option">
+                  <div class="cEditor-modal-option-container">
+                    <i data-feather="align-left"></i>
+                    <div>Paragraph</div>
+                  </div>
+                </div>
+                <div class="cEditor-modal-option">
+                  <div class="cEditor-modal-option-container">
+                    <i data-feather="type"></i>
+                    <div>Header</div>
+                  </div>
+                </div>
+                <div class="cEditor-modal-option">
+                  <div class="cEditor-modal-option-container">
+                    <i data-feather="image"></i>
+                    <div>Image</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <script>feather.replace()</script>
+    <script>
+    </script>
   </body>
 </html>
