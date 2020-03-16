@@ -124,9 +124,14 @@
             font-size: 21px;
             margin-top: 2em;
             width: 100%;
+            background: linear-gradient(60deg, rgba(42,42,42,0) 42%, rgba(69,69,69,1) 100%);
         }
         
         .cEditor-add-container {
+            font-size: 21px;
+            margin-top: 2em;
+            margin-bottom: 500px;
+            width: 100%;
             position: relative;
         }
         
@@ -216,8 +221,8 @@
                     <div class="cEditor-default cEdit-desc">
                         <input autocorrect="on" type="text" placeholder="Description">
                     </div>
-                    <div class="block-container"></div>
-                    <div class="cEditor-block cEditor-add-container">
+                    <div id="blocksContainer" class="block-container"></div>
+                    <div class="cEditor-add-container">
                         <div id="ModalTrigger" onclick="cEditorModalTrigger()" class="cEditor-add-modal-trigger">
                             <i data-feather="plus-circle"></i>
                         </div>
@@ -264,31 +269,44 @@
         });
     </script>
     <script>
-      cEditorOptions = document.getElementsByClassName("cEditor-modal-option")
+      var cEditorOptions = document.getElementsByClassName("cEditor-modal-option")
+      var cEditorBlocks = document.getElementsByClassName("cEditor-block")
+
+      /* Cycle Options Commands with cEditorData value */
       for(let x=0;x<cEditorOptions.length; x++){
         cEditorOptions[x].addEventListener("click", cEditorCommander, false)
       }
 
       function cEditorCommander() {
         var command = this.getAttribute("cEditorData")
-        console.log(command)
         switch(command) {
           case "0":
-          cEditorData.push({"type":"paragraph"})
+          generateBlock('paragraph')
             break;
           case "1":
-          cEditorData.push({"type":"header"})
+          generateBlock('header')
             break;
           case "2":
-          cEditorData.push({"type":"image"})
+          generateBlock('image')
             break  
         }
         OptionModal.classList.remove("modal-trigger");
       }
 
-      var cEditorData = [
 
-      ]
+      /* Block Operations */
+
+
+      function generateBlock(command) {
+        cEditorData.push({"type":command})
+        var div = document.createElement('div');
+        div.setAttribute('contenteditable', true)
+        div.setAttribute('class','cEditor-block')
+        div.innerHTML = ""
+        document.getElementById('blocksContainer').appendChild(div).focus()
+      }
+
+      var cEditorData = []
     </script>
 </body>
 
