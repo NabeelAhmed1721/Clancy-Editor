@@ -1,251 +1,295 @@
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Clancy Editor</title>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
-
-
-      body {margin: 0px;}
-      .header {
-        height: 50px;
-        width: 100%;
-        border: gray solid;
-        border-width: 1px 0px 1px 0px;
-        -webkit-box-shadow: 0px 5px 16px 0px rgba(0,0,0,0.15); 
-        box-shadow: 0px 5px 16px 0px rgba(0,0,0,0.15);
-      }
-      .header-content {
-        height: 100%;
-        width: calc(100% - 75*2);
-        margin-left: 75px;
-        margin-right: 75px;
-        font-family: 'Roboto', sans-serif;
-      }
-      .header-return {
-        line-height: 50px;
-        cursor: pointer;
-      }
-      .header-return:hover .header-return-label a {
-        text-decoration: underline;
-      }
-      .header-return .header-return-label a {
-        text-decoration: none;
-        color: #434343;
-        margin-left: 3px;
-        font-size: 16px;
-        float: left;
-        user-select: none;
-        -webkit-user-select: none; 
-      }
-      .header-return svg {
-        width: 20px;
-        float: left;
-        margin-top: calc((50px / 2) - 13px);
-        color: #434343;
-      }
-
-      .cEditor-wrapper {
-        width: 100%;
-        height: calc(100% - 50px);
-      }
-      .cEditor-container {
-        width: calc(100% - 250px * 2);
-        height: 100%;
-        margin: 0 auto;
-        position: relative;
-      }
-      .cEditor {
-        width: 100%;
-        min-height: calc(100% - 75px - 50px);
-        position: absolute;
-        margin-top: 75px;
-        border: gray solid;
-        border-width: 0px 1px 0px 1px;
-      }
-      .cEditor-content {
-        width: calc(100% - 75px * 2);
-        margin-left: 75px;
-        margin-right: 75px;
-      }
-      .cEditor-default {
-        margin-top: 10px;
-        width: 100%;
-      }
-
-      .cEditor-default input {
-        border: none;
-        width: 100%;
-        background-color: transparent;
-        outline: none;
-      }
-      .cEditor-default input::placeholder {
-        transition: 0.2s;
-        color: #999999;
-      }
-      .cEditor-default input:focus::placeholder{
-        opacity: 0;
-      }
-      
-      .cEdit-title input {
-        /* border: solid #434343;
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+        body {
+            margin: 0px;
+        }
+        
+        .header {
+            height: 50px;
+            width: 100%;
+            border: gray solid;
+            border-width: 1px 0px 1px 0px;
+            -webkit-box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
+            box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header-content {
+            height: 100%;
+            width: calc(100% - 75*2);
+            margin-left: 75px;
+            margin-right: 75px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .header-return {
+            line-height: 50px;
+            cursor: pointer;
+        }
+        
+        .header-return:hover .header-return-label a {
+            text-decoration: underline;
+        }
+        
+        .header-return .header-return-label a {
+            text-decoration: none;
+            color: #434343;
+            margin-left: 3px;
+            font-size: 16px;
+            float: left;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .header-return svg {
+            width: 20px;
+            float: left;
+            margin-top: calc((50px / 2) - 13px);
+            color: #434343;
+        }
+        
+        .cEditor-wrapper {
+            width: 100%;
+            height: calc(100% - 50px);
+        }
+        
+        .cEditor-container {
+            width: calc(100% - 250px * 2);
+            height: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .cEditor {
+            width: 100%;
+            min-height: calc(100% - 75px - 50px);
+            position: absolute;
+            margin-top: 75px;
+            border: gray solid;
+            border-width: 0px 1px 0px 1px;
+        }
+        
+        .cEditor-content {
+            width: calc(100% - 75px * 2);
+            margin-left: 75px;
+            margin-right: 75px;
+        }
+        
+        .cEditor-default {
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .cEditor-default input {
+            border: none;
+            width: 100%;
+            background-color: transparent;
+            outline: none;
+        }
+        
+        .cEditor-default input::placeholder {
+            transition: 0.2s;
+            color: #999999;
+        }
+        
+        .cEditor-default input:focus::placeholder {
+            opacity: 0;
+        }
+        
+        .cEdit-title input {
+            /* border: solid #434343;
         border-width: 0px 0px 1px 0px; */
-        font-size: 42px;
-        font-family: 'Playfair Display', serif;
-      }
-
-      .cEdit-desc input {
-        font-size: 24px;
-        font-family: 'Roboto', sans-serif;
-      }
-
-      .cEdit-desc {
-        margin: 0;
-        margin-bottom: 50px;
-      }
-
-      .cEditor-block {
-        font-size: 21px;
-        margin-top: 2em;
-        width: 100%;
-      }
-
-      .cEditor-add-container {
-        position: relative;
-      }
-
-      .cEditor-add-container svg {
-        color: #434343;
-        cursor: pointer;
-      }
-
-      .cEditor-add-modal {
-        display: none;
-        position: absolute;
-        width: 175px;
-        height: auto;
-        background-color: white;
-        top: 0;
-        left: 0;
-        border: gray solid;
-        border-width: 0.5px 0.5px 0px 0.5px;
-        -webkit-box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.15); 
-        box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.15);
-      }
-
-      .cEditor-modal-option {
-        width: 100%;
-        height: 40px;
-        font-family: 'Roboto', sans-serif;
-        text-align: center;
-        line-height: 40px;
-        cursor: pointer;
-        margin: 0;
-        border: gray solid;
-        border-width: 0px 0px 0.5px 0px;
-        transition: 0.1s;
-      }
-
-      .cEditor-modal-option:hover {
-        background-color: lightgrey;
-      }
-
-      .cEditor-modal-option-container {
-        margin-left: 35px;
-        float: left;
-      }
-
-      .cEditor-modal-option-container div {
-        font-size: 16px;
-        color: #5D5D5D;
-        float: left;
-      }
-
-      .cEditor-modal-option svg {
-        color: #5D5D5D;
-        width: 20px;
-        margin-right: 7px;
-        float: left;
-        margin-top: calc((40px / 2) - 13px)
-      }
-
-      .modal-trigger {
-        display: block;
-      }
-
-      .cEditor-add-modal-trigger {
-        position: absolute;
-      }
+            font-size: 42px;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .cEdit-desc input {
+            font-size: 24px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .cEdit-desc {
+            margin: 0;
+            margin-bottom: 50px;
+        }
+        
+        .cEditor-block {
+            font-size: 21px;
+            margin-top: 2em;
+            width: 100%;
+        }
+        
+        .cEditor-add-container {
+            position: relative;
+        }
+        
+        .cEditor-add-container svg {
+            color: #434343;
+            cursor: pointer;
+        }
+        
+        .cEditor-add-modal {
+            display: none;
+            position: absolute;
+            width: 175px;
+            height: auto;
+            background-color: white;
+            top: 0;
+            left: 0;
+            border: gray solid;
+            border-width: 0.5px 0.5px 0px 0.5px;
+            -webkit-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
+            box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
+        }
+        
+        .cEditor-modal-option {
+            user-select: none;
+            -webkit-user-select: none;
+            width: 100%;
+            height: 40px;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            margin: 0;
+            border: gray solid;
+            border-width: 0px 0px 0.5px 0px;
+            transition: 0.1s;
+        }
+        
+        .cEditor-modal-option:hover {
+            background-color: lightgrey;
+        }
+        
+        .cEditor-modal-option-container {
+            margin-left: 35px;
+            float: left;
+        }
+        
+        .cEditor-modal-option-container div {
+            font-size: 16px;
+            color: #5D5D5D;
+            float: left;
+        }
+        
+        .cEditor-modal-option svg {
+            color: #5D5D5D;
+            width: 20px;
+            margin-right: 7px;
+            float: left;
+            margin-top: calc((40px / 2) - 13px)
+        }
+        
+        .cEditor-add-modal-trigger {
+            position: absolute;
+        }
+        
+        .modal-trigger {
+            display: block;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="header">
-      <div class="header-content">
-        <div class="header-return">
-          <i data-feather="arrow-left"></i>
-          <div class="header-return-label"><a href="/">Back</a></div>
+        <div class="header-content">
+            <div class="header-return">
+                <i data-feather="arrow-left"></i>
+                <div class="header-return-label"><a href="/">Back</a></div>
+            </div>
         </div>
-      </div>
     </div>
     <div class="cEditor-wrapper">
-      <div class="cEditor-container">
-        <div class="cEditor">
-          <div class="cEditor-content">
-            <div class="cEditor-default cEdit-title">
-              <input autocorrect="on" type="text" placeholder="Title">
-            </div>
-            <div class="cEditor-default cEdit-desc">
-              <input autocorrect="on" type="text" placeholder="Description">
-            </div>
-            <div class="block-container">
-            </div>
-            <div class="cEditor-block cEditor-add-container">
-              <div id="ModalTrigger" onclick="cEditorModalTrigger()" class="cEditor-add-modal-trigger">
-                <i data-feather="plus-circle"></i>
-              </div>
-              <div id="OptionModal" class="cEditor-add-modal">
-                <div class="cEditor-modal-option">
-                  <div class="cEditor-modal-option-container">
-                    <i data-feather="align-left"></i>
-                    <div>Paragraph</div>
-                  </div>
+        <div class="cEditor-container">
+            <div class="cEditor">
+                <div class="cEditor-content">
+                    <div class="cEditor-default cEdit-title">
+                        <input autocorrect="on" type="text" placeholder="Title">
+                    </div>
+                    <div class="cEditor-default cEdit-desc">
+                        <input autocorrect="on" type="text" placeholder="Description">
+                    </div>
+                    <div class="block-container"></div>
+                    <div class="cEditor-block cEditor-add-container">
+                        <div id="ModalTrigger" onclick="cEditorModalTrigger()" class="cEditor-add-modal-trigger">
+                            <i data-feather="plus-circle"></i>
+                        </div>
+                        <div id="OptionModal" class="cEditor-add-modal">
+                            <div cEditorData="0" class="cEditor-modal-option">
+                                <div class="cEditor-modal-option-container">
+                                    <i data-feather="align-left"></i>
+                                    <div>Paragraph</div>
+                                </div>
+                            </div>
+                            <div cEditorData="1" class="cEditor-modal-option">
+                                <div class="cEditor-modal-option-container">
+                                    <i data-feather="type"></i>
+                                    <div>Header</div>
+                                </div>
+                            </div>
+                            <div cEditorData="2" class="cEditor-modal-option">
+                                <div class="cEditor-modal-option-container">
+                                    <i data-feather="image"></i>
+                                    <div>Image</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="cEditor-modal-option">
-                  <div class="cEditor-modal-option-container">
-                    <i data-feather="type"></i>
-                    <div>Header</div>
-                  </div>
-                </div>
-                <div class="cEditor-modal-option">
-                  <div class="cEditor-modal-option-container">
-                    <i data-feather="image"></i>
-                    <div>Image</div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    <script>feather.replace()</script>
     <script>
-      var OptionModal = document.getElementById('OptionModal');
-      var ModalTrigger = document.getElementById('ModalTrigger')
+        feather.replace()
+    </script>
+    <script>
+        var OptionModal = document.getElementById('OptionModal');
+        var ModalTrigger = document.getElementById('ModalTrigger')
 
-      function cEditorModalTrigger() {
-        console.log("W")
-        OptionModal.classList.add("modal-trigger");
+        function cEditorModalTrigger() {
+            OptionModal.classList.add("modal-trigger");
+        }
+
+        document.addEventListener('click', function(event) {
+            if (!(OptionModal.contains(event.target) || ModalTrigger.contains(event.target))) {
+                OptionModal.classList.remove("modal-trigger");
+            }
+        });
+    </script>
+    <script>
+      cEditorOptions = document.getElementsByClassName("cEditor-modal-option")
+      for(let x=0;x<cEditorOptions.length; x++){
+        cEditorOptions[x].addEventListener("click", cEditorCommander, false)
       }
 
-      document.addEventListener('click', function(event) {
-        if (!(OptionModal.contains(event.target) || ModalTrigger.contains(event.target))) {
-          OptionModal.classList.remove("modal-trigger");
+      function cEditorCommander() {
+        var command = this.getAttribute("cEditorData")
+        console.log(command)
+        switch(command) {
+          case "0":
+          cEditorData.push({"type":"paragraph"})
+            break;
+          case "1":
+          cEditorData.push({"type":"header"})
+            break;
+          case "2":
+          cEditorData.push({"type":"image"})
+            break  
         }
-      });
+        OptionModal.classList.remove("modal-trigger");
+      }
+
+      var cEditorData = [
+
+      ]
     </script>
-  </body>
+</body>
+
 </html>
