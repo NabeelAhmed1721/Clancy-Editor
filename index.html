@@ -298,10 +298,21 @@
       /* Block Operations */
       function updateBlockEvents() {
         for(let x=0;x<cEditorBlocks.length; x++){
-            cEditorBlocks[x].addEventListener("input", function(){
-            console.log(this.innerHTML)
+            cEditorBlocks[x].addEventListener("keydown", function(event){
+                
+                // Remove block on backspace
+                if(event.keyCode == 8 && emptyBlock(this)) {
+                    console.log("s")
+                    this.remove()
+                }
+
             }, false)
         } 
+      }
+
+      function emptyBlock(block) {
+          let blockData = block.innerHTML
+          return blockData == "" || blockData == "<br>"
       }
 
       function generateBlock(command) {
