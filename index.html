@@ -70,25 +70,50 @@
         margin-left: 75px;
         margin-right: 75px;
       }
-      .edit-title {
+      .editor-default {
         margin-top: 10px;
         width: 100%;
       }
-      .edit-title input {
+
+      .editor-default input {
+        border: none;
         width: 100%;
-        font-size: 36px;
         background-color: transparent;
         outline: none;
-        border: solid #434343;
-        border-width: 0px 0px 1px 0px;
+      }
+      .editor-default input::placeholder {
+        transition: 0.2s;
+        color: #999999;
+      }
+      .editor-default input:focus::placeholder{
+        opacity: 0;
+      }
+      
+      .edit-title input {
+        /* border: solid #434343;
+        border-width: 0px 0px 1px 0px; */
+        font-size: 36px;
         font-family: 'Playfair Display', serif;
       }
-      .edit-title input::placeholder {
-        transition: 0.2s;
-        color: #434343;
+
+      .edit-desc input {
+        font-size: 20px;
+        font-family: 'Roboto', sans-serif;
       }
-      .edit-title input:focus::placeholder{
-        opacity: 0;
+
+      .edit-desc {
+        margin: 0;
+        margin-bottom: 50px;
+      }
+
+      .editor-block {
+        margin-top: 15px;
+        width: 100%;
+      }
+
+      .editor-add-container svg {
+        color: #434343;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -105,8 +130,14 @@
       <div class="editor-container">
         <div class="editor">
           <div class="editor-content">
-            <div class="edit-title">
+            <div class="editor-default edit-title">
               <input autocorrect="on" type="text" placeholder="Title">
+            </div>
+            <div class="editor-default edit-desc">
+              <input autocorrect="on" type="text" placeholder="Description">
+            </div>
+            <div class="block-container">
+              <div class="editor-block editor-add-container"><i data-feather="plus-circle"></i></div>
             </div>
           </div>
         </div>
