@@ -295,6 +295,8 @@
       }
 
 
+// WORK: When deleted focus to top block and if that block is not there go down else nothing
+
       /* Block Operations */
       function updateBlockEvents() {
         for(let x=0;x<cEditorBlocks.length; x++){
@@ -302,7 +304,8 @@
                 
                 // Remove block on backspace
                 if(event.keyCode == 8 && emptyBlock(this)) {
-                    console.log("s")
+                    // console.log(cEditorData.splice(x,1))
+                    // console.log(cEditorData)
                     this.remove()
                 }
 
