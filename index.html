@@ -123,6 +123,7 @@
       }
 
       .cEditor-add-modal {
+        display: none;
         position: absolute;
         width: 175px;
         height: auto;
@@ -130,7 +131,9 @@
         top: 0;
         left: 0;
         border: gray solid;
-        border-width: 1px 1px 0px 1px;
+        border-width: 0.5px 0.5px 0px 0.5px;
+        -webkit-box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.15); 
+        box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.15);
       }
 
       .cEditor-modal-option {
@@ -142,7 +145,7 @@
         cursor: pointer;
         margin: 0;
         border: gray solid;
-        border-width: 0px 0px 1px 0px;
+        border-width: 0px 0px 0.5px 0px;
         transition: 0.1s;
       }
 
@@ -168,7 +171,14 @@
         float: left;
         margin-top: calc((40px / 2) - 13px)
       }
-      
+
+      .modal-trigger {
+        display: block;
+      }
+
+      .cEditor-add-modal-trigger {
+        position: absolute;
+      }
     </style>
   </head>
   <body>
@@ -193,8 +203,10 @@
             <div class="block-container">
             </div>
             <div class="cEditor-block cEditor-add-container">
-              <i data-feather="plus-circle"></i>
-              <div class="cEditor-add-modal">
+              <div id="ModalTrigger" onclick="cEditorModalTrigger()" class="cEditor-add-modal-trigger">
+                <i data-feather="plus-circle"></i>
+              </div>
+              <div id="OptionModal" class="cEditor-add-modal">
                 <div class="cEditor-modal-option">
                   <div class="cEditor-modal-option-container">
                     <i data-feather="align-left"></i>
@@ -221,6 +233,19 @@
     </div>
     <script>feather.replace()</script>
     <script>
+      var OptionModal = document.getElementById('OptionModal');
+      var ModalTrigger = document.getElementById('ModalTrigger')
+
+      function cEditorModalTrigger() {
+        console.log("W")
+        OptionModal.classList.add("modal-trigger");
+      }
+
+      document.addEventListener('click', function(event) {
+        if (!(OptionModal.contains(event.target) || ModalTrigger.contains(event.target))) {
+          OptionModal.classList.remove("modal-trigger");
+        }
+      });
     </script>
   </body>
 </html>
