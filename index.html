@@ -125,7 +125,17 @@
             margin-top: 1em;
             width: 100%;
             padding: 12px;
-            background: linear-gradient(60deg, rgba(42,42,42,0.26234243697478987) 0%, rgba(69,69,69,0.6685049019607843) 100%);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .cEditor-block[blocktype="paragraph"] {
+            background: linear-gradient(60deg, rgba(255, 169, 169, 0.262) 0%, rgba(202, 56, 56, 0.669) 100%);
+        }
+        .cEditor-block[blocktype="header"] {
+            background: linear-gradient(60deg, rgba(80, 184, 86, 0.262) 0%, rgba(8, 160, 16, 0.669) 100%);
+        }
+        .cEditor-block[blocktype="image"] {
+            background: linear-gradient(60deg, rgba(223, 86, 177, 0.262) 0%, rgba(172, 14, 145, 0.669) 100%);
         }
         
         .cEditor-add-container {
@@ -222,25 +232,32 @@
                     <div class="cEditor-default cEdit-desc">
                         <input autocorrect="on" type="text" placeholder="Description">
                     </div>
-                    <div id="blocksContainer" class="block-container"></div>
+                    <div id="blocksContainer" class="block-container">
+                        <div blocktype="paragraph" class="cEditor-block" contenteditable="true"></div>
+                        <div blocktype="image" class="cEditor-block" contenteditable="true"></div>
+                        <div blocktype="image" class="cEditor-block" contenteditable="true"></div>
+                        <div blocktype="paragraph" class="cEditor-block" contenteditable="true"></div>
+                        <div blocktype="paragraph" class="cEditor-block" contenteditable="true"></div>
+                        <div blocktype="image" class="cEditor-block" contenteditable="true"></div>
+                    </div>
                     <div class="cEditor-add-container">
                         <div id="ModalTrigger" onclick="cEditorModalTrigger()" class="cEditor-add-modal-trigger">
                             <i data-feather="plus-circle"></i>
                         </div>
                         <div id="OptionModal" class="cEditor-add-modal">
-                            <div cEditorData="0" class="cEditor-modal-option">
+                            <div cEditorDataType="0" class="cEditor-modal-option">
                                 <div class="cEditor-modal-option-container">
                                     <i data-feather="align-left"></i>
                                     <div>Paragraph</div>
                                 </div>
                             </div>
-                            <div cEditorData="1" class="cEditor-modal-option">
+                            <div cEditorDataType="1" class="cEditor-modal-option">
                                 <div class="cEditor-modal-option-container">
                                     <i data-feather="type"></i>
                                     <div>Header</div>
                                 </div>
                             </div>
-                            <div cEditorData="2" class="cEditor-modal-option">
+                            <div cEditorDataType="2" class="cEditor-modal-option">
                                 <div class="cEditor-modal-option-container">
                                     <i data-feather="image"></i>
                                     <div>Image</div>
@@ -256,6 +273,7 @@
         feather.replace()
     </script>
     <script>
+        // Menu
         var OptionModal = document.getElementById('OptionModal');
         var ModalTrigger = document.getElementById('ModalTrigger')
 
@@ -268,10 +286,8 @@
                 OptionModal.classList.remove("modal-trigger");
             }
         });
-    </script>
-    <script>
+
       var cEditorOptions = document.getElementsByClassName("cEditor-modal-option")
-      var cEditorBlocks = document.getElementsByClassName("cEditor-block")
 
       /* Cycle Options Commands with cEditorData value */
       for(let x=0;x<cEditorOptions.length; x++){
@@ -279,7 +295,7 @@
       }
 
       function cEditorCommander() {
-        var command = this.getAttribute("cEditorData")
+        var command = this.getAttribute("cEditorDataType")
         switch(command) {
           case "0":
           generateBlock('paragraph')
@@ -294,41 +310,81 @@
         OptionModal.classList.remove("modal-trigger");
       }
 
-
+    </script>
+    <script>
+    //Block Operations
 // WORK: When deleted focus to top block and if that block is not there go down else nothing
 
       /* Block Operations */
-      function updateBlockEvents() {
-        for(let x=0;x<cEditorBlocks.length; x++){
-            cEditorBlocks[x].addEventListener("keydown", function(event){
-                
-                // Remove block on backspace
-                if(event.keyCode == 8 && emptyBlock(this)) {
-                    // console.log(cEditorData.splice(x,1))
-                    // console.log(cEditorData)
-                    this.remove()
-                }
 
-            }, false)
-        } 
-      }
 
-      function emptyBlock(block) {
-          let blockData = block.innerHTML
-          return blockData == "" || blockData == "<br>"
-      }
+    //   function updateBlockEvents() {
+    //     var cEditorBlocks = document.querySelectorAll(".cEditor-block")
+    //     for(let x=0;x<cEditorBlocks.length; x++){
+    //         cEditorBlocks[x].addEventListener("keydown", function(event){
+    //             // Remove block on backspace
+    //             if(event.keyCode == 8 && emptyBlock(this) && document.activeElement == this) {
+    //                 this.remove()
+    //                 if(cEditorBlocks.length > 1) {
 
-      function generateBlock(command) {
-        cEditorData.push({"type":command})
-        var div = document.createElement('div');
-        div.setAttribute('contenteditable', true)
-        div.setAttribute('class','cEditor-block')
-        div.innerHTML = ""
-        document.getElementById('blocksContainer').appendChild(div).focus()
-        updateBlockEvents()
-      }
+    //                 if(x >= 1) {
+                            
+    //                         cEditorBlocks[x-1].focus()
+    //                 } else if(x==0){
+    //                         cEditorBlocks[x].focus()
+    //                 }
+    //             }
+    //         }
 
-      var cEditorData = []
+    //         }, true)
+
+    //         cEditorBlocks[x].addEventListener("focus", function(event){
+    //         })
+    //     } 
+    //   }
+
+
+    //   function emptyBlock(block) {
+    //       let blockData = block.innerHTML
+    //       return blockData == "" || blockData == "<br>"
+    //   }
+
+    //   function generateBlock(command) {
+    //     var div = document.createElement('div');
+    //     div.setAttribute('contenteditable', true)
+    //     div.setAttribute('class','cEditor-block')
+    //     div.setAttribute('blockType',command)
+    //     div.innerHTML = ""
+    //     document.getElementById('blocksContainer').appendChild(div).focus()
+    //     updateBlockEvents()
+    //   }
+
+
+    var blocksContainer = document.querySelector("#blocksContainer")
+    blocksContainer.addEventListener("keydown", blockScanner, false)
+    function blockScanner(block) {
+        // this = container, block.target = selected block
+
+        // Delete block
+        if(event.keyCode == 8 && emptyBlock(block.target)) {
+            console.log("Deleted Block Index: ",getBlockIndex(this.children, block.target))
+            block.target.remove()
+            console.log("BLOCKS LEFT: ",this.children.length)
+        }
+    }
+
+    function emptyBlock(block) {
+        let blockData = block.innerHTML
+        return blockData == "" || blockData == "<br>"
+    }
+
+    function getBlockIndex(blocks, block) {
+        for (var i = 0; i < blocks.length; i++) {
+            if (blocks[i] === block)
+            return i;
+        }
+        return -1;
+    }
     </script>
 </body>
 
