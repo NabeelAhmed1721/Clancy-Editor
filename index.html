@@ -363,13 +363,26 @@
     var blocksContainer = document.querySelector("#blocksContainer")
     blocksContainer.addEventListener("keydown", blockScanner, false)
     function blockScanner(block) {
+
+
         // this = container, block.target = selected block
 
         // Delete block
         if(event.keyCode == 8 && emptyBlock(block.target)) {
-            console.log("Deleted Block Index: ",getBlockIndex(this.children, block.target))
+            let deletedBlockIndex = getBlockIndex(this.children, block.target)
+            let blocksLength = this.children.length
+            console.log("Deleted Block Index: ",deletedBlockIndex)
+
             block.target.remove()
-            console.log("BLOCKS LEFT: ",this.children.length)
+
+            if(blocksLength > 1) {
+                console.log()
+                if(deletedBlockIndex >= 1) {
+                    this.children[deletedBlockIndex-1].focus()
+                } else {
+                    this.children[0].focus()
+                }
+            }
         }
     }
 
@@ -380,8 +393,9 @@
 
     function getBlockIndex(blocks, block) {
         for (var i = 0; i < blocks.length; i++) {
-            if (blocks[i] === block)
-            return i;
+            if (blocks[i] === block) {
+                return i;
+            }
         }
         return -1;
     }
