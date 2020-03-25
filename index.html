@@ -232,14 +232,7 @@
                     <div class="cEditor-default cEdit-desc">
                         <input autocorrect="on" type="text" placeholder="Description">
                     </div>
-                    <div id="blocksContainer" class="block-container">
-                        <div blocktype="paragraph" class="cEditor-block" contenteditable="true"></div>
-                        <div blocktype="image" class="cEditor-block" contenteditable="true"></div>
-                        <div blocktype="image" class="cEditor-block" contenteditable="true"></div>
-                        <div blocktype="paragraph" class="cEditor-block" contenteditable="true"></div>
-                        <div blocktype="paragraph" class="cEditor-block" contenteditable="true"></div>
-                        <div blocktype="image" class="cEditor-block" contenteditable="true"></div>
-                    </div>
+                    <div id="blocksContainer" class="block-container"></div>
                     <div class="cEditor-add-container">
                         <div id="ModalTrigger" onclick="cEditorModalTrigger()" class="cEditor-add-modal-trigger">
                             <i data-feather="plus-circle"></i>
@@ -269,9 +262,7 @@
             </div>
         </div>
     </div>
-    <script>
-        feather.replace()
-    </script>
+    <script>feather.replace()</script>
     <script>
         // Menu
         var OptionModal = document.getElementById('OptionModal');
@@ -312,78 +303,51 @@
 
     </script>
     <script>
-    //Block Operations
-// WORK: When deleted focus to top block and if that block is not there go down else nothing
-
-      /* Block Operations */
-
-
-    //   function updateBlockEvents() {
-    //     var cEditorBlocks = document.querySelectorAll(".cEditor-block")
-    //     for(let x=0;x<cEditorBlocks.length; x++){
-    //         cEditorBlocks[x].addEventListener("keydown", function(event){
-    //             // Remove block on backspace
-    //             if(event.keyCode == 8 && emptyBlock(this) && document.activeElement == this) {
-    //                 this.remove()
-    //                 if(cEditorBlocks.length > 1) {
-
-    //                 if(x >= 1) {
-                            
-    //                         cEditorBlocks[x-1].focus()
-    //                 } else if(x==0){
-    //                         cEditorBlocks[x].focus()
-    //                 }
-    //             }
-    //         }
-
-    //         }, true)
-
-    //         cEditorBlocks[x].addEventListener("focus", function(event){
-    //         })
-    //     } 
-    //   }
-
-
-    //   function emptyBlock(block) {
-    //       let blockData = block.innerHTML
-    //       return blockData == "" || blockData == "<br>"
-    //   }
-
-    //   function generateBlock(command) {
-    //     var div = document.createElement('div');
-    //     div.setAttribute('contenteditable', true)
-    //     div.setAttribute('class','cEditor-block')
-    //     div.setAttribute('blockType',command)
-    //     div.innerHTML = ""
-    //     document.getElementById('blocksContainer').appendChild(div).focus()
-    //     updateBlockEvents()
-    //   }
-
-
+        
     var blocksContainer = document.querySelector("#blocksContainer")
     blocksContainer.addEventListener("keydown", blockScanner, false)
+
     function blockScanner(block) {
-
-
         // this = container, block.target = selected block
 
         // Delete block
         if(event.keyCode == 8 && emptyBlock(block.target)) {
+            block.preventDefault()
+
             let deletedBlockIndex = getBlockIndex(this.children, block.target)
             let blocksLength = this.children.length
-            console.log("Deleted Block Index: ",deletedBlockIndex)
 
             block.target.remove()
 
             if(blocksLength > 1) {
-                console.log()
                 if(deletedBlockIndex >= 1) {
-                    this.children[deletedBlockIndex-1].focus()
+                    //this.children[deletedBlockIndex-1].focus()
+                    setCaretPosition(this.children[deletedBlockIndex-1])
                 } else {
-                    this.children[0].focus()
+                    //this.children[0].focus()
+                    setCaretPosition(this.children[0])
                 }
             }
         }
+
+        // Traverse Blocks with 
+
+
+    }
+
+    function setCaretPosition(block) {
+        var range = document.createRange();
+        var sel = window.getSelection();
+        var blockNodes = block.childNodes
+        
+
+        if(blockNodes.length != 0) {
+            range.setStart(blockNodes[blockNodes.length-1], 1);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+        block.focus()
     }
 
     function emptyBlock(block) {
@@ -399,6 +363,16 @@
         }
         return -1;
     }
+    
+    function generateBlock(command) {
+        var div = document.createElement('div');
+        div.setAttribute('contenteditable', true)
+        div.setAttribute('class','cEditor-block')
+        div.setAttribute('blockType',command)
+        div.innerHTML = ""
+        document.getElementById('blocksContainer').appendChild(div).focus()
+        blockScanner()
+      }
     </script>
 </body>
 
