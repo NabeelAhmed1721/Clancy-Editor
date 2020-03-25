@@ -15,7 +15,7 @@
         .header {
             height: 50px;
             width: 100%;
-            border: gray solid;
+            border: #707070 solid;
             border-width: 1px 0px 1px 0px;
             -webkit-box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
             box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
@@ -72,7 +72,7 @@
             min-height: calc(100% - 75px - 50px);
             position: absolute;
             margin-top: 75px;
-            border: gray solid;
+            border: #707070 solid;
             border-width: 0px 1px 0px 1px;
         }
         
@@ -121,21 +121,30 @@
         }
         
         .cEditor-block {
+            outline: none;
             font-size: 21px;
             margin-top: 1em;
             width: 100%;
             padding: 12px;
             font-family: 'Roboto', sans-serif;
+            transition: 0.15s;
+            border: solid;
+            border-bottom-color: white;
+            border-width: 0px 2px 1px 0px;
+        }
+
+        .cEditor-block:focus {
+            border-bottom-color: #707070;
         }
 
         .cEditor-block[blocktype="paragraph"] {
-            background: linear-gradient(60deg, rgba(255, 169, 169, 0.262) 0%, rgba(202, 56, 56, 0.669) 100%);
+            border-right-color: #ffc1c1;
         }
         .cEditor-block[blocktype="header"] {
-            background: linear-gradient(60deg, rgba(80, 184, 86, 0.262) 0%, rgba(8, 160, 16, 0.669) 100%);
+            border-right-color: #c1deff;
         }
         .cEditor-block[blocktype="image"] {
-            background: linear-gradient(60deg, rgba(223, 86, 177, 0.262) 0%, rgba(172, 14, 145, 0.669) 100%);
+            border-right-color: #c1ffd6;
         }
         
         .cEditor-add-container {
@@ -159,7 +168,7 @@
             background-color: white;
             top: 0;
             left: 0;
-            border: gray solid;
+            border: #707070 solid;
             border-width: 0.5px 0.5px 0px 0.5px;
             -webkit-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
             box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
@@ -175,7 +184,7 @@
             line-height: 40px;
             cursor: pointer;
             margin: 0;
-            border: gray solid;
+            border: #707070 solid;
             border-width: 0px 0px 0.5px 0px;
             transition: 0.1s;
         }
