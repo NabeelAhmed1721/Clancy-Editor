@@ -81,6 +81,7 @@ border-width: 0px 0px 1px 0px; */
 }
 
 .cEditor-block[blocktype="paragraph"] {
+    font-weight: 300;
     border-right-color: #ffc1c1;
 }
 .cEditor-block[blocktype="header"] {

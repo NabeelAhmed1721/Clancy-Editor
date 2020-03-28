@@ -9,15 +9,18 @@
 
 .header-content {
     height: 100%;
-    width: calc(100% - 75*2);
-    margin-left: 75px;
-    margin-right: 75px;
     font-family: 'Roboto', sans-serif;
 }
 
 .header-return {
     line-height: 50px;
     cursor: pointer;
+    margin-left: 75px;
+    position: absolute;
+}
+
+.header-return .header-return-label {
+    float: left;
 }
 
 .header-return:hover .header-return-label a {
@@ -41,14 +44,13 @@
     color: #434343;
 }
 
-.header-logo {
+.header-logo-container {
     text-align: center;
-    width: auto;
 }
 
 .header-logo img {
     user-select: none;
     -webkit-user-select: none;
-    height: 80%;
-    margin-top: calc(25px - (50px * 0.8) / 2)
+    height: 60%;
+    margin-top: calc(25px - (50px * 0.6) / 2)
 }
