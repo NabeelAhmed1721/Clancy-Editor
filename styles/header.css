@@ -1,4 +1,5 @@
 .header {
+    overflow: hidden;
     position: fixed;
     height: 50px;
     width: 100%;
@@ -6,11 +7,11 @@
     border-width: 1px 0px 1px 0px;
     -webkit-box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
     box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
+    font-family: 'Roboto', sans-serif;
 }
 
 .header-content {
     height: 100%;
-    font-family: 'Roboto', sans-serif;
 }
 
 .header-return {
@@ -46,6 +47,12 @@
 }
 
 .header-logo-container {
+    transition: ease-out 0.1s;
+    margin-top: calc(-31px - (25px - (50px * 0.6) / 2));
+    text-align: center;
+}
+
+.cEditor-toolbar-container {
     text-align: center;
 }
 
