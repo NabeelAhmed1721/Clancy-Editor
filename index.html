@@ -126,7 +126,7 @@
     <script>
         var blocksContainer = document.querySelector("#blocksContainer")
         blocksContainer.addEventListener("keydown", blockKeyBinder, false)
-        
+        document.addEventListener("keydown", externalBlockFocus, false)
         document.addEventListener("click", blockClickBinder, false)
 
         function blockClickBinder(block) {
@@ -137,18 +137,9 @@
             }
         }
 
-        function cEditorToolBar(state) {
-            var headerLogoContainer = document.getElementById("headerLogoContainer")
-            if(state) {
-                headerLogoContainer.classList.add("header-logo-container-switch")
-            } else {
-                headerLogoContainer.classList.remove("header-logo-container-switch")
-            }
-        }
-
         function blockKeyBinder(block) {
             // this = container, block.target = selected block
-
+            cEditorToolBar(true)
             // Delete block
             if (event.keyCode == 8 && emptyBlock(block.target)) {
                 block.preventDefault()
@@ -160,15 +151,32 @@
 
                 if (blocksLength > 1) {
                     if (deletedBlockIndex >= 1) {
-                        //this.children[deletedBlockIndex-1].focus()
                         setCaretPosition(this.children[deletedBlockIndex - 1])
                     } else {
-                        //this.children[0].focus()
                         setCaretPosition(this.children[0])
                     }
                 } else {
                     cEditorToolBar(false)
                 }
+            }
+
+            // Tab
+            if (event.keyCode == 9) {
+                block.preventDefault()
+                // If block that was tabbed in is not the last element
+                let currentBlockIndex = getBlockIndex(this.children, block.target)
+                if(currentBlockIndex < this.children.length-1){
+                    setCaretPosition(this.children[currentBlockIndex + 1])
+                }
+            }
+        }
+
+        function cEditorToolBar(state) {
+            var headerLogoContainer = document.getElementById("headerLogoContainer")
+            if(state) {
+                headerLogoContainer.classList.add("header-logo-container-switch")
+            } else {
+                headerLogoContainer.classList.remove("header-logo-container-switch")
             }
         }
 
@@ -198,6 +206,12 @@
                 }
             }
             return -1;
+        }
+
+        function externalBlockFocus(block) {
+            if (event.keyCode == 9 && blocksContainer.contains(block.target)) {
+                cEditorToolBar(true)           
+            }
         }
 
         function generateBlock(command) {
