@@ -181,17 +181,22 @@
         }
 
         function setCaretPosition(block) {
-            var range = document.createRange();
-            var sel = window.getSelection();
-            var blockNodes = block.childNodes
-
-            if (blockNodes.length != 0) {
-                range.setStart(blockNodes[blockNodes.length - 1], 1);
-                range.collapse(true);
+            block.focus()
+            //https://stackoverflow.com/questions/4233265/contenteditable-set-caret-at-the-end-of-the-text-cross-browser
+            if (typeof window.getSelection != "undefined"
+            && typeof document.createRange != "undefined") {
+                var range = document.createRange();
+                range.selectNodeContents(block);
+                range.collapse(false);
+                var sel = window.getSelection();
                 sel.removeAllRanges();
                 sel.addRange(range);
+            } else if (typeof document.body.createTextRange != "undefined") {
+                var textRange = document.body.createTextRange();
+                textRange.moveToElementText(block);
+                textRange.collapse(false);
+                textRange.select();
             }
-            block.focus()
         }
 
         function emptyBlock(block) {
