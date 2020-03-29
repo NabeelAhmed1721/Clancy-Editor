@@ -114,9 +114,18 @@
     <script>
         
     var blocksContainer = document.querySelector("#blocksContainer")
-    blocksContainer.addEventListener("keydown", blockScanner, false)
+    blocksContainer.addEventListener("keydown", blockKeyBinder, false)
+    // document.addEventListener("click", blockClickBinder, false)
+    
+    // function blockClickBinder(block) {
+    //     console.log(blocksContainer.contains(block.target))
+    // }
 
-    function blockScanner(block) {
+    function cEditorToolBar() {
+
+    }
+
+    function blockKeyBinder(block) {
         // this = container, block.target = selected block
 
         // Delete block
@@ -138,10 +147,6 @@
                 }
             }
         }
-
-        // Traverse Blocks with 
-
-
     }
 
     function setCaretPosition(block) {
@@ -174,13 +179,13 @@
     }
     
     function generateBlock(command) {
-        var div = document.createElement('div');
-        div.setAttribute('contenteditable', true)
-        div.setAttribute('class','cEditor-block')
-        div.setAttribute('blockType',command)
-        div.innerHTML = ""
-        document.getElementById('blocksContainer').appendChild(div).focus()
-        blockScanner()
+        var newBlock = document.createElement('div');
+        newBlock.setAttribute('contenteditable', true)
+        newBlock.setAttribute('class','cEditor-block')
+        newBlock.setAttribute('blockType',command)
+        newBlock.innerHTML = ""
+        document.getElementById('blocksContainer').appendChild(newBlock).focus()
+        blockKeyBinder()
       }
     </script>
 </body>
