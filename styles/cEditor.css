@@ -12,9 +12,9 @@
 
 .cEditor {
     width: 100%;
-    min-height: calc(100% - 75px - 50px);
+    min-height: calc(100% - 125px - 50px);
     position: absolute;
-    margin-top: 75px;
+    margin-top: 125px;
     border: #707070 solid;
     border-width: 0px 1px 0px 1px;
 }
