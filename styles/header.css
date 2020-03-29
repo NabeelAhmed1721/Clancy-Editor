@@ -8,6 +8,7 @@
     -webkit-box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
     box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
     font-family: 'Roboto', sans-serif;
+    z-index: 100;
 }
 
 .header-content {
@@ -53,7 +54,25 @@
 }
 
 .cEditor-toolbar-container {
+    position: relative;
     text-align: center;
+}
+
+.cEditor-toolbar {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: calc(28px - (50px * 0.6) / 2)
+}
+
+.cEditor-toolbar-icons .cEditor-toolbar-icon {
+    float: left;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+.cEditor-toolbar-icons .cEditor-toolbar-icon {
+    cursor: pointer;
 }
 
 .header-logo img {

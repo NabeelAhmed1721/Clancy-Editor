@@ -20,9 +20,9 @@
 <body>
     <div class="header">
         <div class="header-return">
-                <i data-feather="arrow-left"></i>
-                <div class="header-return-label"><a href="/">Back</a></div>
-            </div>
+            <i data-feather="arrow-left"></i>
+            <div class="header-return-label"><a href="/">Back</a></div>
+        </div>
         <div class="header-content">
             <div class="header-logo-container">
                 <div class="header-logo">
@@ -30,8 +30,12 @@
                 </div>
             </div>
             <div class="cEditor-toolbar-container">
-                <div class="header-logo">
-                    <img draggable="false" src="ClancyEditor.png">
+                <div class="cEditor-toolbar">
+                    <div class="cEditor-toolbar-icons">
+                        <div class="cEditor-toolbar-icon cEditor-toolbar-bold"><i data-feather="bold"></i></div>
+                        <div class="cEditor-toolbar-icon cEditor-toolbar-italic"><i data-feather="italic"></i></div>
+                        <div class="cEditor-toolbar-icon cEditor-toolbar-underline"><i data-feather="underline"></i></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,7 +80,9 @@
             </div>
         </div>
     </div>
-    <script>feather.replace()</script>
+    <script>
+        feather.replace()
+    </script>
     <script>
         // Menu
         var OptionModal = document.getElementById('OptionModal');
@@ -92,106 +98,103 @@
             }
         });
 
-      var cEditorOptions = document.getElementsByClassName("cEditor-modal-option")
+        var cEditorOptions = document.getElementsByClassName("cEditor-modal-option")
 
-      /* Cycle Options Commands with cEditorData value */
-      for(let x=0;x<cEditorOptions.length; x++){
-        cEditorOptions[x].addEventListener("click", cEditorCommander, false)
-      }
-
-      function cEditorCommander() {
-        var command = this.getAttribute("cEditorDataType")
-        switch(command) {
-          case "0":
-          generateBlock('paragraph')
-            break;
-          case "1":
-          generateBlock('header')
-            break;
-          case "2":
-          generateBlock('image')
-            break  
+        /* Cycle Options Commands with cEditorData value */
+        for (let x = 0; x < cEditorOptions.length; x++) {
+            cEditorOptions[x].addEventListener("click", cEditorCommander, false)
         }
-        OptionModal.classList.remove("modal-trigger");
-      }
 
+        function cEditorCommander() {
+            var command = this.getAttribute("cEditorDataType")
+            switch (command) {
+                case "0":
+                    generateBlock('paragraph')
+                    break;
+                case "1":
+                    generateBlock('header')
+                    break;
+                case "2":
+                    generateBlock('image')
+                    break
+            }
+            OptionModal.classList.remove("modal-trigger");
+        }
     </script>
     <script>
-        
-    var blocksContainer = document.querySelector("#blocksContainer")
-    blocksContainer.addEventListener("keydown", blockKeyBinder, false)
-    // document.addEventListener("click", blockClickBinder, false)
-    
-    // function blockClickBinder(block) {
-    //     console.log(blocksContainer.contains(block.target))
-    // }
+        var blocksContainer = document.querySelector("#blocksContainer")
+        blocksContainer.addEventListener("keydown", blockKeyBinder, false)
+            // document.addEventListener("click", blockClickBinder, false)
 
-    function cEditorToolBar() {
+        // function blockClickBinder(block) {
+        //     console.log(blocksContainer.contains(block.target))
+        // }
 
-    }
+        function cEditorToolBar() {
 
-    function blockKeyBinder(block) {
-        // this = container, block.target = selected block
+        }
 
-        // Delete block
-        if(event.keyCode == 8 && emptyBlock(block.target)) {
-            block.preventDefault()
+        function blockKeyBinder(block) {
+            // this = container, block.target = selected block
 
-            let deletedBlockIndex = getBlockIndex(this.children, block.target)
-            let blocksLength = this.children.length
+            // Delete block
+            if (event.keyCode == 8 && emptyBlock(block.target)) {
+                block.preventDefault()
 
-            block.target.remove()
+                let deletedBlockIndex = getBlockIndex(this.children, block.target)
+                let blocksLength = this.children.length
 
-            if(blocksLength > 1) {
-                if(deletedBlockIndex >= 1) {
-                    //this.children[deletedBlockIndex-1].focus()
-                    setCaretPosition(this.children[deletedBlockIndex-1])
-                } else {
-                    //this.children[0].focus()
-                    setCaretPosition(this.children[0])
+                block.target.remove()
+
+                if (blocksLength > 1) {
+                    if (deletedBlockIndex >= 1) {
+                        //this.children[deletedBlockIndex-1].focus()
+                        setCaretPosition(this.children[deletedBlockIndex - 1])
+                    } else {
+                        //this.children[0].focus()
+                        setCaretPosition(this.children[0])
+                    }
                 }
             }
         }
-    }
 
-    function setCaretPosition(block) {
-        var range = document.createRange();
-        var sel = window.getSelection();
-        var blockNodes = block.childNodes
-        
+        function setCaretPosition(block) {
+            var range = document.createRange();
+            var sel = window.getSelection();
+            var blockNodes = block.childNodes
 
-        if(blockNodes.length != 0) {
-            range.setStart(blockNodes[blockNodes.length-1], 1);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
-        block.focus()
-    }
-
-    function emptyBlock(block) {
-        let blockData = block.innerHTML
-        return blockData == "" || blockData == "<br>"
-    }
-
-    function getBlockIndex(blocks, block) {
-        for (var i = 0; i < blocks.length; i++) {
-            if (blocks[i] === block) {
-                return i;
+            if (blockNodes.length != 0) {
+                range.setStart(blockNodes[blockNodes.length - 1], 1);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
             }
+            block.focus()
         }
-        return -1;
-    }
-    
-    function generateBlock(command) {
-        var newBlock = document.createElement('div');
-        newBlock.setAttribute('contenteditable', true)
-        newBlock.setAttribute('class','cEditor-block')
-        newBlock.setAttribute('blockType',command)
-        newBlock.innerHTML = ""
-        document.getElementById('blocksContainer').appendChild(newBlock).focus()
-        blockKeyBinder()
-      }
+
+        function emptyBlock(block) {
+            let blockData = block.innerHTML
+            return blockData == "" || blockData == "<br>"
+        }
+
+        function getBlockIndex(blocks, block) {
+            for (var i = 0; i < blocks.length; i++) {
+                if (blocks[i] === block) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        function generateBlock(command) {
+            var newBlock = document.createElement('div');
+            newBlock.setAttribute('contenteditable', true)
+            newBlock.setAttribute('class', 'cEditor-block')
+            newBlock.setAttribute('blockType', command)
+            newBlock.innerHTML = ""
+            document.getElementById('blocksContainer').appendChild(newBlock).focus()
+            blockKeyBinder()
+        }
     </script>
 </body>
 
