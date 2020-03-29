@@ -24,7 +24,7 @@
             <div class="header-return-label"><a href="/">Back</a></div>
         </div>
         <div class="header-content">
-            <div class="header-logo-container">
+            <div id="headerLogoContainer" class="header-logo-container">
                 <div class="header-logo">
                     <img draggable="false" src="ClancyEditor.png">
                 </div>
@@ -117,6 +117,8 @@
                 case "2":
                     generateBlock('image')
                     break
+                default:
+                    break    
             }
             OptionModal.classList.remove("modal-trigger");
         }
@@ -124,14 +126,24 @@
     <script>
         var blocksContainer = document.querySelector("#blocksContainer")
         blocksContainer.addEventListener("keydown", blockKeyBinder, false)
-            // document.addEventListener("click", blockClickBinder, false)
+        
+        document.addEventListener("click", blockClickBinder, false)
 
-        // function blockClickBinder(block) {
-        //     console.log(blocksContainer.contains(block.target))
-        // }
+        function blockClickBinder(block) {
+            if ((blocksContainer.contains(block.target) && document.activeElement == block.target) || OptionModal.contains(block.target)) { // Make sure click was on block
+                cEditorToolBar(true)
+            } else {
+                cEditorToolBar(false)
+            }
+        }
 
-        function cEditorToolBar() {
-
+        function cEditorToolBar(state) {
+            var headerLogoContainer = document.getElementById("headerLogoContainer")
+            if(state) {
+                headerLogoContainer.classList.add("header-logo-container-switch")
+            } else {
+                headerLogoContainer.classList.remove("header-logo-container-switch")
+            }
         }
 
         function blockKeyBinder(block) {
@@ -194,6 +206,7 @@
             newBlock.innerHTML = ""
             document.getElementById('blocksContainer').appendChild(newBlock).focus()
             blockKeyBinder()
+            cEditorToolBar(true)
         }
     </script>
 </body>

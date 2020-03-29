@@ -49,8 +49,11 @@
 
 .header-logo-container {
     transition: ease-out 0.1s;
-    margin-top: calc(-31px - (25px - (50px * 0.6) / 2));
     text-align: center;
+}
+
+.header-logo-container-switch {
+    margin-top: calc(-31px - (25px - (50px * 0.6) / 2));
 }
 
 .cEditor-toolbar-container {
