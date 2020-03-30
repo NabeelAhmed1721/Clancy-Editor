@@ -31,7 +31,7 @@
             </div>
             <div class="cEditor-toolbar-container">
                 <div class="cEditor-toolbar">
-                    <div class="cEditor-toolbar-icons">
+                    <div id="cEditorToolBar" class="cEditor-toolbar-icons">
                         <div class="cEditor-toolbar-icon cEditor-toolbar-bold"><i data-feather="bold"></i></div>
                         <div class="cEditor-toolbar-icon cEditor-toolbar-italic"><i data-feather="italic"></i></div>
                         <div class="cEditor-toolbar-icon cEditor-toolbar-underline"><i data-feather="underline"></i></div>
@@ -131,15 +131,15 @@
 
         function blockClickBinder(block) {
             if ((blocksContainer.contains(block.target) && document.activeElement == block.target) || OptionModal.contains(block.target)) { // Make sure click was on block
-                cEditorToolBar(true)
+                cEditorToolBarToggle(true)
             } else {
-                cEditorToolBar(false)
+                cEditorToolBarToggle(false)
             }
         }
 
         function blockKeyBinder(block) {
             // this = container, block.target = selected block
-            cEditorToolBar(true)
+            cEditorToolBarToggle(true)
             // Delete block
             if (event.keyCode == 8 && emptyBlock(block.target)) {
                 block.preventDefault()
@@ -156,7 +156,7 @@
                         setCaretPosition(this.children[0])
                     }
                 } else {
-                    cEditorToolBar(false)
+                    cEditorToolBarToggle(false)
                 }
             }
 
@@ -171,7 +171,7 @@
             }
         }
 
-        function cEditorToolBar(state) {
+        function cEditorToolBarToggle(state) {
             var headerLogoContainer = document.getElementById("headerLogoContainer")
             if(state) {
                 headerLogoContainer.classList.add("header-logo-container-switch")
@@ -215,7 +215,7 @@
 
         function externalBlockFocus(block) {
             if (event.keyCode == 9 && blocksContainer.contains(block.target)) {
-                cEditorToolBar(true)           
+                cEditorToolBarToggle(true)           
             }
         }
 
@@ -227,8 +227,12 @@
             newBlock.innerHTML = ""
             document.getElementById('blocksContainer').appendChild(newBlock).focus()
             blockKeyBinder()
-            cEditorToolBar(true)
+            cEditorToolBarToggle(true)
         }
+    </script>
+    <script>
+        var cEditorToolBar = document.querySelector("#cEditorToolBar")
+        console.log(cEditorToolBar)
     </script>
 </body>
 
