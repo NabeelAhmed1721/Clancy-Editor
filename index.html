@@ -139,9 +139,11 @@
             cEditorTools[x].addEventListener("mousedown", cEditorToolbarHandler, false)
         }
 
-
         function cEditorToolbarHandler(event) {
             event.preventDefault()
+
+            console.log(this.getAttribute("cEditorTool"));
+
         }
 
 
@@ -163,6 +165,7 @@
 
         function blockKeyBinder(block) {
             // this = container, block.target = selected block
+
             cEditorToolbarToggle(true)
             // Delete block
             if (event.keyCode == 8 && emptyBlock(block.target)) {
