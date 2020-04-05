@@ -142,10 +142,26 @@
         function cEditorToolbarHandler(event) {
             event.preventDefault()
 
-            console.log(this.getAttribute("cEditorTool"));
+            var tool = this.getAttribute("cEditorTool")
+
+            switch(tool) {
+                case "bold":
+                    console.log("Bold")
+                    document.execCommand("bold", false, null)
+                    break
+                case "italic":
+                    console.log("Italic")
+                    document.execCommand("italic", false, null)
+                    break
+                case "underline":    
+                    console.log("Underline")
+                    document.execCommand("underline", false, null)
+                    break
+                default:
+                    break   
+            }
 
         }
-
 
     </script>
     <script>
@@ -156,7 +172,12 @@
 
         function blockClickBinder(element) {
 
-            if ((blocksContainer.contains(element.target) && document.activeElement == element.target) || OptionModal.contains(element.target) || cEditorToolbar.contains(element.target)) { // Make sure click was on block
+            console.log(element.target.tagName);
+            // If target is in blocks container AND it is active or a format tag OR it is a option element OR format tool
+            var clickedOn = element.target
+
+            console.log(isFormatToolTag(clickedOn));
+            if ((blocksContainer.contains(clickedOn) && (document.activeElement == clickedOn || isFormatToolTag(clickedOn))) || OptionModal.contains(clickedOn) || cEditorToolbar.contains(clickedOn)) { // Make sure click was on block
                 cEditorToolbarToggle(true)
             } else {
                 cEditorToolbarToggle(false)
@@ -229,6 +250,12 @@
         function emptyBlock(block) {
             let blockData = block.innerHTML
             return blockData == "" || blockData == "<br>"
+        }
+
+        function isFormatToolTag(element) {
+            var tagName = element.tagName
+            var validTags = ['B', 'I', 'U']
+            return validTags.includes(tagName)
         }
 
         function getBlockIndex(blocks, block) {

@@ -54,7 +54,7 @@
 }
 
 .header-logo-container-switch {
-    margin-top: calc(-31px - (25px - (50px * 0.6) / 2));
+    margin-top: calc(-31px - (25px - (50px * 0.6) / 2) - 2px);
 }
 
 .cEditor-toolbar-container {
@@ -74,6 +74,8 @@
     margin-right: 8px;
     margin-left: 8px;
     cursor: pointer;
+    padding: 4px;
+    border-radius: 2px;
 }
 
 .header-logo img {
