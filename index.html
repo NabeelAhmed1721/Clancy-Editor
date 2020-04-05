@@ -30,15 +30,15 @@
                 </div>
             </div>
             <div class="cEditor-toolbar-container">
-                <div class="cEditor-toolbar">
-                    <div id="cEditorToolbar" class="cEditor-toolbar-icons">
-                        <div cEditorTool="bold" class="cEditor-toolbar-icon cEditor-toolbar-bold">
+                <div id="cEditorToolbar" class="cEditor-toolbar">
+                    <div  class="cEditor-toolbar-icons">
+                        <div cEditorTool="bold" id="cEditorToolbarToolBold" class="cEditor-toolbar-icon">
                             <i data-feather="bold"></i>
                         </div>
-                        <div cEditorTool="italic" class="cEditor-toolbar-icon cEditor-toolbar-italic">
+                        <div cEditorTool="italic" id="cEditorToolbarToolItalic" class="cEditor-toolbar-icon">
                             <i data-feather="italic"></i>
                         </div>
-                        <div cEditorTool="underline" class="cEditor-toolbar-icon cEditor-toolbar-underline">
+                        <div cEditorTool="underline" id="cEditorToolbarToolUnderline" class="cEditor-toolbar-icon">
                             <i data-feather="underline"></i>
                         </div>
                     </div>
@@ -158,23 +158,27 @@
                     break   
             }
 
-
-
         }
 
     </script>
     <script>
         var blocksContainer = document.querySelector("#blocksContainer")
-        blocksContainer.addEventListener("keydown", blockKeyBinder, false)
+        blocksContainer.addEventListener("keydown", blockKeyDownBinder, false)
+        // Used keyup for tool update binding because keydown is triggered too soon, feels like one step behind
+        blocksContainer.addEventListener("keyup", blockKeyUpBinder, false)
         document.addEventListener("keydown", externalBlockFocus, false)
         document.addEventListener("click", blockClickBinder, false)
 
-        function blockClickBinder(element) {
+        function blockKeyUpBinder(block) {
+            cEditorToolBarUpdate(block.target)
+        }
 
+        function blockClickBinder(element) {
+            var cEditorToolbar = document.getElementById("cEditorToolbar")
             // If target is in blocks container AND it is active or a format tag OR it is a option element OR format tool
             var clickedOn = element.target
-
-            if ((blocksContainer.contains(clickedOn) && (document.activeElement == clickedOn || isFormatToolTag(clickedOn))) || OptionModal.contains(clickedOn) || cEditorToolbar.contains(clickedOn)) { // Make sure click was on block
+            
+            if ((blocksContainer.contains(clickedOn) && (document.activeElement == clickedOn || isFormatToolTag(clickedOn))) || OptionModal.contains(clickedOn) || cEditorToolbar.contains(clickedOn) || clickedOn == cEditorToolbar) { // Make sure click was on block
                 cEditorToolBarUpdate(clickedOn)
                 cEditorToolbarToggle(true)
             } else {
@@ -182,7 +186,7 @@
             }
         }
 
-        function blockKeyBinder(block) {
+        function blockKeyDownBinder(block) {
             // this = container, block.target = selected block
 
             cEditorToolbarToggle(true)
@@ -252,13 +256,30 @@
 
         function isFormatToolTag(element) {
             var tagName = element.tagName
-            var validTags = ['B', 'I', 'U']
+            var validTags = ['B', 'I', 'U', 'DIV']
             return validTags.includes(tagName)
         }
 
         function cEditorToolBarUpdate(text) {
+            var tools = ["bold", "italic", "underline"]
+            var textFeatures = []
             if (document.queryCommandState) {
-                console.log(clickedOn = document.queryCommandState("bold"))
+                for (let x = 0; x < tools.length; x++) {
+                    // Assign each array value to selected text object
+                    textFeatures[x] = text
+                    // Assings each object value to rich text tool state | returns boolean
+                    textFeatures[x] = document.queryCommandState(tools[x])
+                }
+
+                for (let x = 0; x < textFeatures.length; x++) {
+                    // Cycle every tool DOM Object
+                    var tool = document.getElementById("cEditorToolbarTool"+tools[x].charAt(0).toUpperCase() + tools[x].slice(1))
+                    if(textFeatures[x]) {
+                        tool.classList.add("cEditor-toolbar-icon-active")
+                    } else {
+                        tool.classList.remove("cEditor-toolbar-icon-active")
+                    }
+                }
             }
         }
 
@@ -284,7 +305,7 @@
             newBlock.setAttribute('blockType', command)
             newBlock.innerHTML = ""
             document.getElementById('blocksContainer').appendChild(newBlock).focus()
-            blockKeyBinder()
+            blockKeyDownBinder()
             cEditorToolbarToggle(true)
         }
     </script>
