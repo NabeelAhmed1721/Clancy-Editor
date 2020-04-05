@@ -86,9 +86,7 @@
             </div>
         </div>
     </div>
-    <script>
-        feather.replace()
-    </script>
+    <script>feather.replace()</script>
     <script>
         // Menus and tools
         /* Option Modal */
@@ -187,11 +185,13 @@
         }
 
         function blockKeyDownBinder(block) {
+            event.stopPropagation();
+                event.preventDefault();
             // this = container, block.target = selected block
-
+            var keyPressed = event.keyCode
             cEditorToolbarToggle(true)
             // Delete block
-            if (event.keyCode == 8 && emptyBlock(block.target)) {
+            if (keyPressed == 8 && emptyBlock(block.target)) {
                 block.preventDefault()
 
                 let deletedBlockIndex = getBlockIndex(this.children, block.target)
@@ -209,9 +209,9 @@
                     cEditorToolbarToggle(false)
                 }
             }
-
+            
             // Tab
-            if (event.keyCode == 9) {
+            if (keyPressed == 9) {
                 block.preventDefault()
                 // If block that was tabbed in is not the last element
                 let currentBlockIndex = getBlockIndex(this.children, block.target)
@@ -219,6 +219,13 @@
                     setCaretPosition(this.children[currentBlockIndex + 1])
                 }
             }
+        
+            // Toolbar Tools
+            // Keycodes: 66 = B, 73 = I, 88 = U
+
+
+            // Create new block
+            // ADD
         }
 
         function cEditorToolbarToggle(state) {
