@@ -78,6 +78,10 @@
     border-radius: 2px;
 }
 
+.cEditor-toolbar-icon-active {
+    background-color: #ededed;
+}
+
 .header-logo img {
     user-select: none;
     -webkit-user-select: none;

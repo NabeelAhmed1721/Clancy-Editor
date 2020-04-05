@@ -146,20 +146,19 @@
 
             switch(tool) {
                 case "bold":
-                    console.log("Bold")
                     document.execCommand("bold", false, null)
                     break
                 case "italic":
-                    console.log("Italic")
                     document.execCommand("italic", false, null)
                     break
                 case "underline":    
-                    console.log("Underline")
                     document.execCommand("underline", false, null)
                     break
                 default:
                     break   
             }
+
+
 
         }
 
@@ -172,12 +171,11 @@
 
         function blockClickBinder(element) {
 
-            console.log(element.target.tagName);
             // If target is in blocks container AND it is active or a format tag OR it is a option element OR format tool
             var clickedOn = element.target
 
-            console.log(isFormatToolTag(clickedOn));
             if ((blocksContainer.contains(clickedOn) && (document.activeElement == clickedOn || isFormatToolTag(clickedOn))) || OptionModal.contains(clickedOn) || cEditorToolbar.contains(clickedOn)) { // Make sure click was on block
+                cEditorToolBarUpdate(clickedOn)
                 cEditorToolbarToggle(true)
             } else {
                 cEditorToolbarToggle(false)
@@ -256,6 +254,12 @@
             var tagName = element.tagName
             var validTags = ['B', 'I', 'U']
             return validTags.includes(tagName)
+        }
+
+        function cEditorToolBarUpdate(text) {
+            if (document.queryCommandState) {
+                console.log(clickedOn = document.queryCommandState("bold"))
+            }
         }
 
         function getBlockIndex(blocks, block) {
