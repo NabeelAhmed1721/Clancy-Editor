@@ -142,6 +142,7 @@
 
             var tool = this.getAttribute("cEditorTool")
 
+            // Might change execCommand for something else in the future for cross-browser compatibility
             switch(tool) {
                 case "bold":
                     document.execCommand("bold", false, null)
