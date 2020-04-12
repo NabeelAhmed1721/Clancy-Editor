@@ -187,10 +187,10 @@
         }
 
         function blockKeyDownBinder(block) {
-            event.stopPropagation();
-                event.preventDefault();
             // this = container, block.target = selected block
             var keyPressed = event.keyCode
+            var metaKey = event.metaKey // ⌘
+
             cEditorToolbarToggle(true)
             // Delete block
             if (keyPressed == 8 && emptyBlock(block.target)) {
@@ -225,7 +225,18 @@
             // Toolbar Tools
             // Keycodes: 66 = B, 73 = I, 88 = U
 
-            
+            if(metaKey && keyPressed == 66) {
+                event.preventDefault()
+                document.execCommand("bold", false, null)
+            }
+            if(metaKey && keyPressed == 73) {
+                event.preventDefault()
+                document.execCommand("italic", false, null)
+            }
+            if(metaKey && keyPressed == 88) {
+                event.preventDefault()
+                document.execCommand("underline", false, null)
+            }
 
             // Create new block
             // ADD
