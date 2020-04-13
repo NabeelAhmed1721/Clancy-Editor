@@ -51,11 +51,13 @@
         <div class="cEditor-container">
             <div class="cEditor">
                 <div class="cEditor-content">
-                    <div class="cEditor-default cEdit-title">
-                        <input autocorrect="on" type="text" placeholder="Title">
-                    </div>
-                    <div class="cEditor-default cEdit-desc">
-                        <input autocorrect="on" type="text" placeholder="Description">
+                    <div id="cEditorHeaderContent">
+                        <div class="cEditor-default cEdit-title">
+                            <input autocorrect="on" type="text" placeholder="Title">
+                        </div>
+                        <div class="cEditor-default cEdit-desc">
+                            <input autocorrect="on" type="text" placeholder="Description">
+                        </div>
                     </div>
                     <div id="blocksContainer" class="block-container"></div>
                     <div class="cEditor-add-container">
@@ -174,15 +176,51 @@
         }
 
         function blockClickBinder(element) {
-            var cEditorToolbar = document.getElementById("cEditorToolbar")
-            // If target is in blocks container AND it is active or a format tag OR it is a option element OR format tool
-            var clickedOn = element.target
             
-            if ((blocksContainer.contains(clickedOn) && (document.activeElement == clickedOn || isFormatToolTag(clickedOn))) || OptionModal.contains(clickedOn) || cEditorToolbar.contains(clickedOn) || clickedOn == cEditorToolbar) { // Make sure click was on block
+            var clickedOn = element.target
+
+            if (isClickPartOfBlockSelection(clickedOn) || isClickPartOfBlockSystem(clickedOn) || isClickMiscellaneous(clickedOn)) { // Make sure click was on block
                 cEditorToolBarUpdate(clickedOn)
                 cEditorToolbarToggle(true)
             } else {
                 cEditorToolbarToggle(false)
+            }
+
+            function isClickPartOfBlockSelection(target) {
+                var cEditorHeaderContent = document.getElementById("cEditorHeaderContent")
+
+                return window.getSelection().toString().length > 0 && blocksContainer.contains(getSelectionParentElement() || cEditorHeaderContent.contains(getSelectionParentElement()))
+            } 
+
+            function isClickPartOfBlockSystem(target) {
+                return blocksContainer.contains(target) && (document.activeElement == target || isFormatToolTag(target))
+            }
+
+            function isClickMiscellaneous(target) {
+                var cEditorToolbar = document.getElementById("cEditorToolbar")
+                return OptionModal.contains(target) || cEditorToolbar.contains(target) || target == cEditorToolbar
+            }
+
+            function isFormatToolTag(element) {
+                var tagName = element.tagName
+                var validTags = ['B', 'I', 'U', 'DIV']
+                return validTags.includes(tagName)
+            }
+
+            function getSelectionParentElement() {
+                var parentEl = null, sel;
+                if (window.getSelection) {
+                    sel = window.getSelection();
+                    if (sel.rangeCount) {
+                        parentEl = sel.getRangeAt(0).commonAncestorContainer;
+                        if (parentEl.nodeType != 1) {
+                            parentEl = parentEl.parentNode;
+                        }
+                    }
+                } else if ( (sel = document.selection) && sel.type != "Control") {
+                    parentEl = sel.createRange().parentElement();
+                }
+                return parentEl;
             }
         }
 
@@ -233,22 +271,27 @@
                 event.preventDefault()
                 document.execCommand("italic", false, null)
             }
-            if(metaKey && keyPressed == 88) {
+            if(metaKey && keyPressed == 85) {
                 event.preventDefault()
                 document.execCommand("underline", false, null)
             }
 
             // Create new block
             // ADD
-        }
 
-        function cEditorToolbarToggle(state) {
-            var headerLogoContainer = document.getElementById("headerLogoContainer")
-            if(state) {
-                headerLogoContainer.classList.add("header-logo-container-switch")
-            } else {
-                headerLogoContainer.classList.remove("header-logo-container-switch")
+
+            function emptyBlock(block) {
+                let blockData = block.innerHTML
+                return blockData == "" || blockData == "<br>"
             }
+
+            function getBlockIndex(blocks, block) {
+            for (var i = 0; i < blocks.length; i++) {
+                if (blocks[i] === block) {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         function setCaretPosition(block) {
@@ -269,16 +312,15 @@
                 textRange.select();
             }
         }
-
-        function emptyBlock(block) {
-            let blockData = block.innerHTML
-            return blockData == "" || blockData == "<br>"
         }
 
-        function isFormatToolTag(element) {
-            var tagName = element.tagName
-            var validTags = ['B', 'I', 'U', 'DIV']
-            return validTags.includes(tagName)
+        function cEditorToolbarToggle(state) {
+            var headerLogoContainer = document.getElementById("headerLogoContainer")
+            if(state) {
+                headerLogoContainer.classList.add("header-logo-container-switch")
+            } else {
+                headerLogoContainer.classList.remove("header-logo-container-switch")
+            }
         }
 
         function cEditorToolBarUpdate(text) {
@@ -302,15 +344,6 @@
                     }
                 }
             }
-        }
-
-        function getBlockIndex(blocks, block) {
-            for (var i = 0; i < blocks.length; i++) {
-                if (blocks[i] === block) {
-                    return i;
-                }
-            }
-            return -1;
         }
 
         function externalBlockFocus(block) {
