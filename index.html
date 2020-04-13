@@ -165,16 +165,20 @@
     </script>
     <script>
         var blocksContainer = document.querySelector("#blocksContainer")
+
         blocksContainer.addEventListener("keydown", blockKeyDownBinder, false)
         // Used keyup for tool update binding because keydown is triggered too soon, feels like one step behind.
         blocksContainer.addEventListener("keyup", blockKeyUpBinder, false)
         document.addEventListener("keyup", externalBlockFocus, false)
         document.addEventListener("click", blockClickBinder, false)
 
+
+        // Key-Up Handler in blocks
         function blockKeyUpBinder(block) {
             cEditorToolBarUpdate(block.target)
         }
 
+        // Click handler in blocks
         function blockClickBinder(element) {
             
             var clickedOn = element.target
@@ -224,6 +228,7 @@
             }
         }
 
+        // Key-Down Handler in blokcs
         function blockKeyDownBinder(block) {
             // this = container, block.target = selected block
             var keyPressed = event.keyCode
@@ -314,6 +319,7 @@
         }
         }
 
+        // Toggle Toolbar
         function cEditorToolbarToggle(state) {
             var headerLogoContainer = document.getElementById("headerLogoContainer")
             if(state) {
@@ -323,6 +329,7 @@
             }
         }
 
+        // Update Toolbar status
         function cEditorToolBarUpdate(text) {
             var tools = ["bold", "italic", "underline"]
             var textFeatures = []
@@ -346,12 +353,14 @@
             }
         }
 
+        // Externel Key-Up Handler
         function externalBlockFocus(block) {
             if (event.keyCode == 9 && blocksContainer.contains(block.target)) {
                 cEditorToolbarToggle(true)           
             }
         }
-
+        
+        // Generate blocks
         function generateBlock(command) {
             var newBlock = document.createElement('div');
             newBlock.setAttribute('contenteditable', true)
