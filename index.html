@@ -166,7 +166,7 @@
     <script>
         var blocksContainer = document.querySelector("#blocksContainer")
         blocksContainer.addEventListener("keydown", blockKeyDownBinder, false)
-        // Used keyup for tool update binding because keydown is triggered too soon, feels like one step behind
+        // Used keyup for tool update binding because keydown is triggered too soon, feels like one step behind.
         blocksContainer.addEventListener("keyup", blockKeyUpBinder, false)
         document.addEventListener("keyup", externalBlockFocus, false)
         document.addEventListener("click", blockClickBinder, false)
